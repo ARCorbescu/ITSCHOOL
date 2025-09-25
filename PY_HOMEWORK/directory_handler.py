@@ -44,9 +44,15 @@ if __name__ == "__main__":
             (file.name, "File size is: " + str(format(os.path.getsize(file), '.2f') + " KB"))
             for file in dir_path.iterdir() if file.is_file()
         ]
+        dirs = [d.name for d in dir_path.iterdir() if d.is_dir()]
         # Print the files or a message if the directory is empty
-        if files:
-            print(*files, sep='\n')
+        if files or dirs:
+            if dirs:
+                print("Subdirectories:")
+                print(*dirs, sep='\n')
+            if files:
+                print("Files:")
+                print(*files, sep='\n')
         else:
             print("Directory is empty")
     else:
