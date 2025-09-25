@@ -41,6 +41,8 @@ if __name__ == "__main__":
     # Print an alert if usage exceeds 5%
     if percentage >= 5.0:
         print("⚠️ Alert: Directory usage exceeds 5% of the partition!")
+    else:
+        print(f"All good dir uses {percentage} of the partition")
 
 
 """
