@@ -29,11 +29,11 @@ def get_total_partition_size(dir_path):
 if __name__ == "__main__":
     # Get the directory path from command line arguments
     dir_path = Path(sys.argv[1])
-    
+
     # Calculate the directory size and partition size
     dir_size = get_dir_size_in_bytes(dir_path)
     disk_size = get_total_partition_size(dir_path)
-    
+
     # Calculate the usage percentage
     percentage = float(format(dir_size * 100 / disk_size, '.2f'))
     print(percentage)
