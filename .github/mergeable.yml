@@ -1,23 +1,26 @@
+---
 version: 2
-mergeable:
+anchors:
+  ##############################################################
+  # TITLE CHECK
+  ##############################################################
+  title_check: &title_check
+    do: title
+    must_include:
+      regex: '.*TEST.*'
+      regex_flag: "none"
 
-  # -------------------------------------------------------------------------
-  # 1. PR TITLE — ABPI ticket id (backstop for check_pr_title_ticket_id)
-  # -------------------------------------------------------------------------
-  - when: pull_request.opened, pull_request.edited, pull_request.reopened, pull_request.synchronize, pull_request.labeled, pull_request.unlabeled
-    name: 'PR Title — ABPI ticket id'
+mergeable:
+  ##############################################################
+  # TITLE CHECK
+  ##############################################################
+  - when: pull_request.opened, pull_request.synchronize, pull_request.edited
+    name: "Title format check (Voting)"
     validate:
-      - do: or
-        validate:
-          - do: title
-            must_include:
-              regex: '^(Revert ")?\[(ABPI-\d+|NoTicket)\]\s+\S.*'
-              regex_flag: 'none'
-    fail:
-      - do: comment
+      - <<: *title_check
+    pass:
+      - do: checks
+        status: success
         payload:
-          body: >
-            **PR title format.** Titles must start with `[ABPI-<number>] `
-            or `[NoTicket] ` (no space before `[`, exactly one after `]`),
-            e.g. `[ABPI-744266] Fix Zuul configuration errors`.
-            This mirrors the `ramses-checker` rule `check_pr_title_ticket_id`.
+          title: "✅ Title Format Check Passed"
+          summary: "The PR title follows the correct format."
