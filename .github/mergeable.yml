@@ -1,0 +1,26 @@
+---
+version: 2
+anchors:
+  ##############################################################
+  # TITLE CHECK
+  ##############################################################
+  title_check: &title_check
+    do: title
+    must_include:
+      regex: '.*TEST.*'
+      regex_flag: "none"
+
+mergeable:
+  ##############################################################
+  # TITLE CHECK
+  ##############################################################
+  - when: pull_request.opened, pull_request.synchronize, pull_request.edited
+    name: "Title format check (Voting)"
+    validate:
+      - <<: *title_check
+    pass:
+      - do: checks
+        status: success
+        payload:
+          title: "✅ Title Format Check Passed"
+          summary: "The PR title follows the correct format."
